@@ -1,21 +1,21 @@
+import java.util.HashMap;
+
 class Solution {
-  public boolean checkSubarraySum(int[] nums, int k) {
-    int prefix = 0;
-    Map<Integer, Integer> prefixToIndex = new HashMap<>();
-    prefixToIndex.put(0, -1);
+    public boolean checkSubarraySum(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, -1);
+        
+        int total = 0;
+        for (int i = 0; i < nums.length; i++) {
+            total += nums[i];
+            int remainder = total % k;
 
-    for (int i = 0; i < nums.length; ++i) {
-      prefix += nums[i];
-      if (k != 0)
-        prefix %= k;
-      if (prefixToIndex.containsKey(prefix)) {
-        if (i - prefixToIndex.get(prefix) > 1)
-          return true;
-      } else {
-        prefixToIndex.put(prefix, i);
-      }
+            if (map.containsKey(remainder)) {
+                if (i - map.get(remainder) > 1) return true;
+            } else {
+                map.put(remainder, i);
+            }
+        }
+        return false;
     }
-
-    return false;
-  }
 }
