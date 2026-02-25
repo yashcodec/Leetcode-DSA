@@ -1,18 +1,33 @@
+
 class Solution {
-  public int numSubarraysWithSum(int[] nums, int goal) {
-    int ans = 0;
-    int prefix = 0;
-    Map<Integer, Integer> count = new HashMap<>();
-    count.put(0, 1);
+    public int numSubarraysWithSum(int[] nums, int goal) {
+        
+        int n = nums.length ; 
+        int count = 0 ;
+        int i = 0 , j = 0 , curr_Sum = 0 , Zero_Count = 0 ;
+        while(j < n)
+        {
+            curr_Sum = curr_Sum + nums[j] ;
+            while(i < j && (curr_Sum > goal || nums[i] == 0))
+            {
+                if(nums[i] == 1)
+                {
+                    Zero_Count = 0  ;
+                }
+                else
+                {
+                    Zero_Count++ ;
+                }
+                curr_Sum -= nums[i] ;
+                i++ ;
+            }
 
-    for (final int num : nums) {
-      prefix += num;
-      final int key = prefix - goal;
-      if (count.containsKey(key))
-        ans += count.get(key);
-      count.merge(prefix, 1, Integer::sum);
+            if(curr_Sum == goal)
+            {
+                count = count + 1 + Zero_Count ;
+            }
+            j++ ;
+        }
+        return count ;
     }
-
-    return ans;
-  }
 }
