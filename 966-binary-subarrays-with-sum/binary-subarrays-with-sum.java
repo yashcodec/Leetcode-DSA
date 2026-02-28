@@ -5,7 +5,7 @@ class Solution {
     }
 
     private int atMost(int[] nums, int goal) {
-        if (goal < 0) return 0;   // Important edge case
+        if (goal < 0) return 0;  
 
         int left = 0;
         int sum = 0;
