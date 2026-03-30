@@ -1,29 +1,24 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<List<Integer>> result = new ArrayList<>();
-        backtrack(result, new ArrayList<>(), candidates, target, 0);
-        return result;
+        List<List<Integer>> results = new ArrayList<>();
+        backtrack(results, new ArrayList<>(), candidates, target, 0);
+        return results;
     }
-    
-    private void backtrack(List<List<Integer>> result, List<Integer> temp,
-                           int[] candidates, int target, int start) {
-        
-        if (target == 0) {
-            result.add(new ArrayList<>(temp));
+
+    private void backtrack(List<List<Integer>> results, List<Integer> currentCombination, int[] candidates, int remaining, int index) {
+        if (remaining < 0) {
             return;
-        }
-        
-        if (target < 0) return;
-        
-        for (int i = start; i < candidates.length; i++) {
-            temp.add(candidates[i]);
-            
-            // reuse same element → i (not i+1)
-            backtrack(result, temp, candidates, target - candidates[i], i);
-            
-            temp.remove(temp.size() - 1); // backtrack
+        } else if (remaining == 0) {
+            results.add(new ArrayList<>(currentCombination));
+        } else {
+            for (int i = index; i < candidates.length; i++) {
+                currentCombination.add(candidates[i]);
+                backtrack(results, currentCombination, candidates, remaining - candidates[i], i);
+                currentCombination.remove(currentCombination.size() - 1);
+            }
         }
     }
 }
